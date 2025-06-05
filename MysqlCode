@@ -1,0 +1,28 @@
+CREATE DATABASE electricity_db;
+
+USE electricity_db;
+
+CREATE TABLE users (
+    ca_number VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(100),
+    password VARCHAR(100),
+    email VARCHAR(100),
+    role ENUM('user', 'admin') NOT NULL
+);
+
+CREATE TABLE bills (
+    bill_id INT AUTO_INCREMENT PRIMARY KEY,
+    ca_number VARCHAR(20),
+    month VARCHAR(20),
+    units_consumed INT,
+    amount DECIMAL(10,2),
+    status ENUM('paid', 'unpaid') DEFAULT 'unpaid',
+    FOREIGN KEY (ca_number) REFERENCES users(ca_number) ON DELETE CASCADE
+);
+
+-- Insert default admin account
+INSERT INTO users (ca_number, name, password, email, role)
+VALUES ('ADMIN001', 'admin', 'admin123', 'admin@ebs.com', 'admin');
+
+-- Check users data
+SELECT * FROM users;
